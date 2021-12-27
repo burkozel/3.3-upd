@@ -42,7 +42,7 @@ class AdvertisementSerializer(serializers.ModelSerializer):
         user = self.context["request"].user
         users_adv_count = Advertisement.objects.select_related('creator').filter(creator=user, status='OPEN').count()
 
-        if users_adv_count > 10:
+        if users_adv_count > 10 or self.context["request"].method == "POST"::
             raise serializers.ValidationError('Превышено количество открытых объявлений (10)')
 
         return data
